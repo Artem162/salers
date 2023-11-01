@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 id="title-ind">{{title}}</h1>
+<ul class="list-articles">
+    {% for p in posts %}
+    <li class="product">
+        <h2 id="name">{{p.title}}</h2>
+        {% if p.photo %}
+        <p><img class="img-article-left thumb" src="{{ p.photo.url }}"></p>
+        {% endif %}
+        <p id="price">Price: ${{p.price}}</p>
+        <div class="clear"></div>
+        <p class="link-read-post"><a href="{{ p.get_absolute_url }}">More details</a></p>
+
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content%}
