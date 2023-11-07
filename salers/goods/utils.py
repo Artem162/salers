@@ -1,5 +1,4 @@
 from django.db.models import Count
-
 from .models import *
 
 menu = [{'title': 'About us', 'url_name': 'about'},  #
@@ -13,6 +12,8 @@ class DataMixin:
     def get_user_context(self, **kwargs):
         context = kwargs
         cats = Category.objects.all()
+        total = Product.objects.count()  # count of goods
+
         if not cats:
             cats = Category.objects.annotate(Count('product'))
 
@@ -20,6 +21,7 @@ class DataMixin:
         if not self.request.user.is_authenticated:
             user_menu.pop(1)
 
+        context['total'] = total
         context['menu'] = user_menu
         context['cats'] = cats
         if 'cat_selected' not in context:

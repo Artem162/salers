@@ -16,7 +16,7 @@ class SellForm(forms.ModelForm):
     class Meta:
         model = Product
         # fields = '__all__'
-        fields = ['title', 'slug', 'description', 'photo', 'cat']
+        fields = ['title', 'slug', 'price', 'description', 'photo', 'cat']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input',
                                             'placeholder': 'Product name'
@@ -44,8 +44,6 @@ class FeedbackForm(forms.Form):
                                                            'placeholder': 'enter your message'}))
 
     captcha = CaptchaField()
-
-
 
 
 # ————————————————————————————————————————————————————————————————————————————————————————————————————————————

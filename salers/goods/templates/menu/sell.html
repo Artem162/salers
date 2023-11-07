@@ -4,7 +4,7 @@
 <div class="Form">
     <h1>{{title}} form</h1>
     <hr>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
 

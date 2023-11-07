@@ -36,7 +36,8 @@ urlpatterns = [
     # Showing:
     path('Product/<slug:post_slug>/', ShowPost.as_view(), name='post'),
     path('category/<slug:cat_slug>/', ProductCategory.as_view(), name='category'),
-    # path('profile/<slug:profile_slug>/', ShowProfile.as_view(), name='profile'),
+    # path('profile/<slug:username>', show_profile, name='profile'),
+    path('profile/<slug:username>/', ShowProfile.as_view(), name='profile'),
     # Captcha
     path('captcha/', include('captcha.urls')),
 ]

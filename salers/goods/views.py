@@ -1,7 +1,6 @@
 # imports
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User  # Database with users
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator  # nummering of pages
 from django.shortcuts import redirect, render  # HTML things
@@ -88,6 +87,7 @@ class ProductCategory(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
         c_def = self.get_user_context(title='Category ' + str(context['posts'][0].cat),
                                       cat_selected=context['posts'][0].cat_id)
         context = dict(list(context.items()) + list(c_def.items()))
@@ -99,12 +99,15 @@ class ProductCategory(DataMixin, ListView):
 def about(request):
     cats = Category.objects.all()
     user_menu = menu.copy()
+    total = Product.objects.count()
+
     if not request.user.is_authenticated:
         user_menu.pop(1)
     context = {
         'title': 'Home',
         'menu': user_menu,
-        'cats': cats
+        'cats': cats,
+        'total': total
     }
     return render(request, 'menu/about.html', context=context)
 
@@ -122,6 +125,16 @@ class Sell(LoginRequiredMixin, DataMixin, CreateView):
         c_def = self.get_user_context(title='sell')
         context = dict(list(context.items()) + list(c_def.items()))
         return context
+
+    def form_valid(self, form):
+        new_product = form.save()
+
+        category = new_product.cat
+
+        category.product_count = Product.objects.filter(cat=category).count()
+        category.save()
+
+        return redirect('home')
 
 
 class Feedback(DataMixin, FormView):
@@ -178,18 +191,27 @@ class LoginUser(DataMixin, LoginView):
         return reverse_lazy('home')
 
 
-# class ShowProfile(DataMixin, DetailView):
-#     model = User
-#     template_name = 'content/profile.html'
-#     slug_url_kwarg = 'profile_slug'
-#     context_object_name = 'profile'
+# def show_profile(request):
+#     username = User.username
+#     context = {
+#         'slug_url_kwarg': username
+#     }
 #
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#
-#         c_def = self.get_user_context(title='profile')
-#         context = dict(list(context.items()) + list(c_def.items()))
-#         return context
+#     return render(request, 'menu/profile.html', context=context)
+
+
+class ShowProfile(DataMixin, DetailView):
+    model = User
+    template_name = 'content/profile.html'
+    slug_url_kwarg = 'profile_slug'
+    context_object_name = 'profile'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        c_def = self.get_user_context(title='profile')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
 
 
 # ————————————————————————————————————————————————————————————————————————————————————————————————————————————

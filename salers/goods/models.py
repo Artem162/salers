@@ -30,6 +30,7 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True, verbose_name='Category')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    product_count = models.IntegerField(default=0, verbose_name='Product Count')
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'cat_slug': self.slug})

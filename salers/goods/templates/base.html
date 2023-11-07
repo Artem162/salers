@@ -30,8 +30,6 @@
                         <li class="last"><a id="left" href="#">{{user.username}}</a> | 
                             <a id="right" href="{% url 'logout' %}">log out</a></li>
 
-                        
-
                         {% else %}
 
                         <li class="last"><a id="left" href="{% url 'login' %} ">Log in</a>  |  
@@ -40,6 +38,7 @@
                     {% endif %}
                 </ul>
                 <div class="clear"></div>
+                
             </header>
             {% endblock mainmenu %}
             <!-- ——————————————————————————————————————————————————————————————————————————————————————————————————————————— -->
@@ -48,9 +47,9 @@
                 <tr>
                     <td valign="top" class="left-chapters">
                         <ul id="leftchapters">
-                            <li><a href="{% url 'home' %}">All clothes</a></li>
+                            <li><a href="{% url 'home' %}">All clothes ({{ total }})</a></li>
                             {% for c in cats %}
-                            <li><a href="{{ c.get_absolute_url }}">{{c.name}}</a></li>
+                            <li><a href="{{ c.get_absolute_url }}">{{c.name}} ({{c.product_count}})</a></li>
                             {% endfor %}
                         </ul>
                     </td>
@@ -113,13 +112,13 @@
 
                 <div class="foot-right">
                 <hr>
-                <a href="#"><img src="{% static 'images/logos/youtube-logo.png' %}" alt="youtube" height="40px" width="40px" ></a>
+                <a href="https://www.youtube.com/"><img src="{% static 'images/logos/youtube-logo.png' %}" alt="youtube" height="40px" width="40px" ></a>
                 <hr>
-                <a href="#"><img src="{% static 'images/logos/telegram-logo.png' %}" alt="telegram" height="40px" width="40px" ></a>
+                <a href="https://telegram.org/"><img src="{% static 'images/logos/telegram-logo.png' %}" alt="telegram" height="40px" width="40px" ></a>
                 <hr>
-                <a href="#"><img src="{% static 'images/logos/facebook-logo.png' %}" alt="facebook" height="40px" width="40px"></a>
+                <a href="https://www.facebook.com/"><img src="{% static 'images/logos/facebook-logo.png' %}" alt="facebook" height="40px" width="40px"></a>
                 <hr>
-                <a href="#"><img src="{% static 'images/logos/instagram-logo.png' %}" alt="instagram" height="40px" width="40px" ></a>
+                <a href="https://www.instagram.com/"><img src="{% static 'images/logos/instagram-logo.png' %}" alt="instagram" height="40px" width="40px" ></a>
                 </div>
             </footer>
         </td>
